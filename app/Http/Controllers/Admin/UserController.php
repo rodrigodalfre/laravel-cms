@@ -7,19 +7,29 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+
+    public function __construct(){
+        $this->middleware('auth');
+        $this->middleware('can:edit-users');
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
-     */
+     */ 
     public function index()
     {
-        $users = User::all();
+        $users = User::paginate(5);
+        $loggedId = intval(Auth::id());
+
         return view('admin.users.index', [
-            'users' => $users
+            'users' => $users,
+            'loggedId' => $loggedId
         ]);
     }
 
@@ -88,7 +98,17 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::find($id);
+
+        if($user){
+            return view('admin.users.edit', [
+                'user' => $user
+            ]);
+        }
+
+        return redirect()->route('users.index');
+
+        
     }
 
     /**
@@ -100,7 +120,66 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::find($id);
+
+        if($user){
+            $data = $request->only([
+                'name',
+                'email',
+                'password',
+                'password_confirmation'
+            ]);
+
+            $validator = Validator::make([
+                'name' => $data['name'],
+                'email' => $data['email']
+            ],[
+                'name' => ['required', 'string', 'max:100'],
+                'email' => ['required', 'string', 'email', 'max:100']
+            ]);
+
+            if($validator->fails()){
+                return redirect()->route('users.edit', [
+                    'user' => $id
+                ])->withErrors($validator);
+            }
+
+            // 1. Alterar o nome
+            $user->name = $data['name'];
+
+            // 2. Alteração do email
+            // 2.1 Verificar se o email foi alterado
+            if($user->email != $data['email']){
+                // 2.2 Verificamos se o email existe
+                $hasEmail = User::where('email', $data['email'])->get(); 
+                // 2.3 Se não existe, alterar.
+                if(count($hasEmail) === 0){
+                    $user->email = $data['email']; 
+                }
+            }
+
+            // 3. Alteração de senha
+            // 3.1 Verifica se o user digitou a senha
+            if(!empty($data['password'])){
+                if(strlen($data['password']) >= 4){
+                    // 3.2 Verifica se a confirmação está ok
+                    if($data['password'] === $data['password_confirmation']){
+                        // 3.3 Altera a senha
+                        $user->password = Hash::make($data['password']);
+                    }
+                } else{
+                    $validator->errors->add('password', __('validation.min.string', [
+                        'attribute' => 'password',
+                        'min' => 4
+                    ]));
+                }
+            }
+
+
+            $user->save();
+        }
+
+        return redirect()->route('users.index');
     }
 
     /**
@@ -111,6 +190,13 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $loggedId = intval(Auth::id());
+
+        if($loggedId != intval($id)){
+            $user = User::find($id);
+            $user->delete();
+        }
+
+        return redirect()->route('users.index');
     }
 }

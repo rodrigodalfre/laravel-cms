@@ -1,10 +1,10 @@
 @extends('adminlte::page')
 
-@section('title', 'Novo Usuário')
+@section('title', 'Editar Usuário')
 
 @section('content_header')
     <h1>
-        Novo Usuário
+        Editar Usuário
     </h1>
 @endsection
 
@@ -22,13 +22,14 @@
     @endif
 
 
-    <form action="{{route('users.store')}}" class="form-horizontal" method="POST">
+    <form action="{{route('users.update', ['user' => $user->id])}}" class="form-horizontal" method="POST">
+        @method('PUT')
         @csrf
         <div class="form-group">
             <div class="row">
                 <label for="" class="col-sm-2 control-label">Nome Completo</label>
                 <div class="col-sm-10">                                                    
-                    <input type="text" name="name" value="{{old('name')}}" class="form-control {{$errors->has('name') ? 'is-invalid' : '' }}">
+                    <input type="text" name="name" value="{{$user->name}}" class="form-control {{$errors->has('name') ? 'is-invalid' : '' }}">
                 </div>
             </div>
         </div>
@@ -36,13 +37,13 @@
             <div class="row">
                 <label for="" class="col-sm-2 control-label">Email</label>
                 <div class="col-sm-10">
-                    <input type="email" name="email" value="{{old('email')}}" class="form-control {{$errors->has('email') ? 'is-invalid' : ''}} ">
+                    <input type="email" name="email" value="{{$user->email}}" class="form-control {{$errors->has('email') ? 'is-invalid' : ''}} ">
                 </div>
             </div>
         </div>
         <div class="form-group">
             <div class="row">
-                <label for="" class="col-sm-2 control-label">Senha</label>
+                <label for="" class="col-sm-2 control-label">Nova Senha</label>
                 <div class="col-sm-10">
                     <input type="password" name="password" class="form-control {{$errors->has('password') ? 'is-invalid' : ''}} ">
                 </div>
@@ -60,7 +61,7 @@
             <div class="row">
                 <label for="" class="col-sm-2 control-label"></label>
                 <div class="col-sm-10">
-                    <input type="submit" value="Cadastrar" class="btn btn-success">
+                    <input type="submit" value="Salvar" class="btn btn-success">
                 </div>
             </div>
         </div>
