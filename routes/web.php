@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\PageController;
 
 //Site
 use App\Http\Controllers\Site\HomeController;
@@ -41,12 +42,15 @@ Route::prefix('painel')->group(function(){
 
     //Route::get('users', [UserController::class, 'index'])->name('users');
     Route::resource('users', UserController::class);
+    Route::resource('pages', PageController::class);
 
     Route::get('profile', [ProfileController::class, 'index'])->name('profile');
     Route::put('profilesave', [ProfileController::class, 'save'])->name('profile.save');
 
     Route::get('settings', [SettingController::class, 'index'])->name('settings');
     Route::put('save', [SettingController::class, 'save'])->name('setting.save');
+
+    
 
 });
 
