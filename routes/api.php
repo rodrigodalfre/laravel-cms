@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+//Admin
+use App\Http\Controllers\Admin\UploadController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,3 +20,5 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('/imageupload', [UploadController::class, 'imageupload'])->name('imageupload');

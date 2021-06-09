@@ -37,7 +37,7 @@
             <div class="row">
                 <label for="" class="col-sm-2 control-label">Corpo</label>
                 <div class="col-sm-10">
-                    <textarea name="body" class="form-control">{{$page->body}}</textarea>
+                    <textarea name="body" class="form-control body-field">{{$page->body}}</textarea>
                 </div>
             </div>
         </div>
@@ -52,6 +52,24 @@
         
     </form>
     
-    
+    {{-- CDN do TinyMCE --}}
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+
+        tinyMCE.init({
+            selector:'textarea.body-field',
+            height: 300,
+            menubar:false,
+            plugins: ['link', 'table', 'image', 'autoresize', 'lists'],
+            toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | table | link image | bullist numlist',
+            content_css:[
+                ' {{ asset('assets/css/content.css') }} '
+            ],
+            images_upload_url: '{{route('imageupload')}}',
+            images_upload_credentials: true,
+            convert_urls : false
+        })
+
+    </script>
 
 @endsection
