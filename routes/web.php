@@ -30,7 +30,7 @@ Route::get('/', [HomeController::class, 'index']);
 
 Route::prefix('painel')->group(function(){
 
-    Route::get('/', [AdminController::class, 'index'])->name('painel');
+    Route::get('/', [HomeController::class, 'index'])->name('painel');
 
     Route::get('login', [LoginController::class, 'index'])->name('login');
     Route::post('login', [LoginController::class, 'authenticate']);
