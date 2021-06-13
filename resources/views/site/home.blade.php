@@ -1,19 +1,27 @@
-@extends('adminlte::page')
+@extends('site.layout')
 
-@section('title', 'Painel')
-
-@section('content_header')
-    <h1>Painel de Controle</h1>
-@stop
+@section('title', 'Laravel CMS')
 
 @section('content')
-    <p>Página de home.</p>
-@stop
 
-@section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
-@stop
+<section class="home">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 d-flex">
+          <div class="align-self-center">
+            <h2 class="display-4">{{$front_config['title']}}</h1>
+            <p class="lead">
+              {{$front_config['subtitle']}}
+            </p>
 
-@section('js')
-    <script> console.log('Hi!'); </script>
-@stop
+            <a href="" class="btn btn-warning btn-lg">Get Start Now!</a>
+          </div>
+        </div>
+        <div  class="col-md-6">
+          <img src="{{asset('media/images/dashboard.png')}}" class="img-fluid">
+        </div>
+      </div>
+    </div>
+  </section>    
+
+@endsection

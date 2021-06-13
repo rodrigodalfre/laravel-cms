@@ -1,0 +1,41 @@
+body{
+    background: url(../../media/images/ruido.png),
+                linear-gradient(50deg,#00aeff,#5a1b83);
+                background-blend-mode: overlay;
+	background-attachment: fixed;
+	font-family: Helvetica, Arial, sans-serif;
+}
+
+body, html{
+    margin: 0;
+    padding:0;
+    font: 16px 'Inter', sans-serif;
+	height: 100vh;
+}
+
+nav.navbar-transparente{
+	padding: 15px 0px;
+	background: rgba(0,0,0,0.6);
+}
+
+.navbar-light .navbar-nav .nav-link {
+    margin-top: 10px;
+    color: white;
+    font-size: 18px;
+}
+
+.navbar-light .navbar-nav .nav-link:hover{
+	color:	#9bf0e1;
+}
+
+.divisor{
+	width: 1px;
+	background: white;
+	margin: 12px 15px;
+}
+
+.home{
+	padding: 30px 0;
+	color: white;
+
+}
