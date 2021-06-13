@@ -13,6 +13,8 @@ use App\Http\Controllers\Admin\PageController;
 
 //Site
 use App\Http\Controllers\Site\HomeController;
+use App\Http\Controllers\Site\PublicPageController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -50,9 +52,9 @@ Route::prefix('painel')->group(function(){
     Route::get('settings', [SettingController::class, 'index'])->name('settings');
     Route::put('save', [SettingController::class, 'save'])->name('setting.save');
 
-    
-
 });
+
+Route::fallback([PublicPageController::class, 'index']);
 
 Auth::routes();
 
